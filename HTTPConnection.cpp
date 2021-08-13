@@ -355,6 +355,7 @@ void HTTPConnection::loop() {
   if (_clientState == CSTATE_CLOSED && _bufferProcessed == _bufferUnusedIdx && _connectionState < STATE_HEADERS_FINISHED) {
     closeConnection();
   }
+  
 
   if (!isClosed() && isTimeoutExceeded()) {
     HTTPS_LOGI("Connection timeout. FID=%d", _socket);
@@ -395,7 +396,6 @@ void HTTPConnection::loop() {
 
       break;
     case STATE_REQUEST_FINISHED: // Read headers
-
       while (_bufferProcessed < _bufferUnusedIdx && !isClosed()) {
         readLine(HTTPS_REQUEST_MAX_HEADER_LENGTH);
         if (_parserLine.parsingFinished && _connectionState != STATE_ERROR) {
@@ -537,10 +537,12 @@ void HTTPConnection::loop() {
             if (hConnection == "close") {
               _isKeepAlive = false;
             }
+            
             if (!_isKeepAlive) {
               // No KeepAlive -> We are done. Transition to next state.
               if (!isClosed()) {
                 res.finalize();
+                Serial.println("Finished from here");
                 _connectionState = STATE_BODY_FINISHED;
               }
             } else {
