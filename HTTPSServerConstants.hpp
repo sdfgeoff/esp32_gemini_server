@@ -78,7 +78,7 @@
 // Timeout used to wait for shutdown of SSL connection (ms)
 // (time for the client to return notify close flag) - without it, truncation attacks might be possible
 #ifndef HTTPS_SHUTDOWN_TIMEOUT
-#define HTTPS_SHUTDOWN_TIMEOUT                 5000
+#define HTTPS_SHUTDOWN_TIMEOUT                 10000
 #endif
 
 // Length of a SHA1 hash
